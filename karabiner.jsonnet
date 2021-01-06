@@ -6,7 +6,7 @@ local citrix = {
 local from_to(modifiers, from, to) = {
   description: std.join(' ', [std.join('+', modifiers), '+', from, '=>', to]),
   manipulators: [{
-    from: { key_code: from, modifiers: { mandatory: modifiers } },
+    from: { key_code: from, modifiers: { mandatory: modifiers, optional: ['any'] } },
     to: [{ key_code: to }],
     type: 'basic',
   }],
