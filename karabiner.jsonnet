@@ -29,8 +29,12 @@ local from_to(modifiers, from, to) = {
           'mouse_motion_to_scroll.speed': 100,
         },
         rules: [
-          from_to(['left_option'], 'j', 'page_down'),
-          from_to(['left_option'], 'k', 'page_up'),
+          from_to(['left_option'], 'h', 'left_arrow'),
+          from_to(['left_option'], 'j', 'down_arrow'),
+          from_to(['left_option'], 'k', 'up_arrow'),
+          from_to(['left_option'], 'l', 'right_arrow'),
+          from_to(['left_option'], 'd', 'page_down'),
+          from_to(['left_option'], 'u', 'page_up'),
           {
             description: 'Citrix: K380 fn + right',
             manipulators: [{
