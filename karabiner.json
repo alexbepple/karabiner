@@ -49,9 +49,7 @@
                                         "mandatory": [
                                             "left_option"
                                         ],
-                                        "optional": [
-                                            "any"
-                                        ]
+                                        "optional": []
                                     }
                                 },
                                 "to": [

@@ -3,10 +3,10 @@ local citrix = {
   type: 'frontmost_application_if',
 };
 
-local from_to(modifiers, from, to) = {
+local from_to(modifiers, from, to, optional=['any'],) = {
   description: std.join(' ', [std.join('+', modifiers), '+', from, '=>', to]),
   manipulators: [{
-    from: { key_code: from, modifiers: { mandatory: modifiers, optional: ['any'] } },
+    from: { key_code: from, modifiers: { mandatory: modifiers, optional: optional } },
     to: [{ key_code: to }],
     type: 'basic',
   }],
@@ -30,7 +30,8 @@ local from_to(modifiers, from, to) = {
         },
         rules: [
           from_to(['left_option'], 'h', 'left_arrow'),
-          from_to(['left_option'], 'j', 'down_arrow'),
+          // cmd+alt+j is Alfred Snippets for me – unless I have to, I do not want to abandon it
+          from_to(['left_option'], 'j', 'down_arrow', optional=[],),
           from_to(['left_option'], 'k', 'up_arrow'),
           from_to(['left_option'], 'l', 'right_arrow'),
           from_to(['left_option'], 'd', 'page_down'),
