@@ -3,10 +3,11 @@ local citrix = {
   type: 'frontmost_application_if',
 };
 
-local from_to(modifiers, from, to, optional=['any'],) = {
-  description: std.join(' ', [std.join('+', modifiers), '+', from, '=>', to]),
+local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
+  local mandatory = if std.isArray(modifierOrModifiers) then modifierOrModifiers else [modifierOrModifiers],
+  description: std.join(' ', [std.join('+', mandatory), '+', from, '=>', to]),
   manipulators: [{
-    from: { key_code: from, modifiers: { mandatory: modifiers, optional: optional } },
+    from: { key_code: from, modifiers: { mandatory: mandatory, optional: optional } },
     to: [{ key_code: to }],
     type: 'basic',
   }],
@@ -29,13 +30,13 @@ local from_to(modifiers, from, to, optional=['any'],) = {
           'mouse_motion_to_scroll.speed': 100,
         },
         rules: [
-          from_to(['left_option'], 'h', 'left_arrow'),
+          from_to('left_option', 'h', 'left_arrow'),
           // cmd+alt+j is Alfred Snippets for me – unless I have to, I do not want to abandon it
-          from_to(['left_option'], 'j', 'down_arrow', optional=[],),
-          from_to(['left_option'], 'k', 'up_arrow'),
-          from_to(['left_option'], 'l', 'right_arrow'),
-          from_to(['left_option'], 'd', 'page_down'),
-          from_to(['left_option'], 'u', 'page_up'),
+          from_to('left_option', 'j', 'down_arrow', optional=[]),
+          from_to('left_option', 'k', 'up_arrow'),
+          from_to('left_option', 'l', 'right_arrow'),
+          from_to('left_option', 'd', 'page_down'),
+          from_to('left_option', 'u', 'page_up'),
           {
             description: 'Citrix: K380 fn + right',
             manipulators: [{
