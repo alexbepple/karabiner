@@ -17,75 +17,33 @@
         rules: [
           {
             description: 'option+j => page_down',
-            manipulators: [
-              {
-                from: {
-                  key_code: 'j',
-                  modifiers: {
-                    mandatory: [
-                      'left_option',
-                    ],
-                  },
-                },
-                to: [
-                  {
-                    key_code: 'page_down',
-                  },
-                ],
-                type: 'basic',
-              },
-            ],
+            manipulators: [{
+              from: { key_code: 'j', modifiers: { mandatory: ['left_option'] } },
+              to: [{ key_code: 'page_down' }],
+              type: 'basic',
+            }],
           },
           {
             description: 'option+k => page_up',
-            manipulators: [
-              {
-                from: {
-                  key_code: 'k',
-                  modifiers: {
-                    mandatory: [
-                      'left_option',
-                    ],
-                  },
-                },
-                to: [
-                  {
-                    key_code: 'page_up',
-                  },
-                ],
-                type: 'basic',
-              },
-            ],
+            manipulators: [{
+              from: { key_code: 'k', modifiers: { mandatory: ['left_option'] } },
+              to: [{ key_code: 'page_up' }],
+              type: 'basic',
+            }],
           },
           {
             description: 'Citrix: K380 fn + right',
             manipulators: [
               {
-                conditions: [
-                  {
-                    bundle_identifiers: [
-                      '^com\\.citrix\\.receiver\\.icaviewer\\.mac$',
-                    ],
-                    type: 'frontmost_application_if',
-                  },
-                ],
+                conditions: [{
+                  bundle_identifiers: ['^com\\.citrix\\.receiver\\.icaviewer\\.mac$'],
+                  type: 'frontmost_application_if',
+                }],
                 from: {
                   key_code: 'right_arrow',
-                  modifiers: {
-                    mandatory: [
-                      'left_shift',
-                      'left_option',
-                    ],
-                    optional: [
-                      'left_control',
-                    ],
-                  },
+                  modifiers: { mandatory: ['left_shift', 'left_option'], optional: ['left_control'] },
                 },
-                to: [
-                  {
-                    key_code: 'end',
-                  },
-                ],
+                to: [{ key_code: 'end' }],
                 type: 'basic',
               },
             ],
