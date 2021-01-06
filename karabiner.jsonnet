@@ -3,6 +3,15 @@ local citrix = {
   type: 'frontmost_application_if',
 };
 
+local from_to(modifiers, from, to) = {
+  description: std.join(' ', [std.join('+', modifiers), '+', from, '=>', to]),
+  manipulators: [{
+    from: { key_code: from, modifiers: { mandatory: modifiers } },
+    to: [{ key_code: to }],
+    type: 'basic',
+  }],
+};
+
 {
   global: {
     check_for_updates_on_startup: true,
@@ -20,22 +29,8 @@ local citrix = {
           'mouse_motion_to_scroll.speed': 100,
         },
         rules: [
-          {
-            description: 'option+j => page_down',
-            manipulators: [{
-              from: { key_code: 'j', modifiers: { mandatory: ['left_option'] } },
-              to: [{ key_code: 'page_down' }],
-              type: 'basic',
-            }],
-          },
-          {
-            description: 'option+k => page_up',
-            manipulators: [{
-              from: { key_code: 'k', modifiers: { mandatory: ['left_option'] } },
-              to: [{ key_code: 'page_up' }],
-              type: 'basic',
-            }],
-          },
+          from_to(['left_option'], 'j', 'page_down'),
+          from_to(['left_option'], 'k', 'page_up'),
           {
             description: 'Citrix: K380 fn + right',
             manipulators: [{

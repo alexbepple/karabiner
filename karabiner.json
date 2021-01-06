@@ -16,7 +16,7 @@
                 },
                 "rules": [
                     {
-                        "description": "option+j => page_down",
+                        "description": "left_option + j => page_down",
                         "manipulators": [
                             {
                                 "from": {
@@ -37,7 +37,7 @@
                         ]
                     },
                     {
-                        "description": "option+k => page_up",
+                        "description": "left_option + k => page_up",
                         "manipulators": [
                             {
                                 "from": {
