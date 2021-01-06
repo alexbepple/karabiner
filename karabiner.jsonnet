@@ -1,3 +1,8 @@
+local citrix = {
+  bundle_identifiers: ['^com\\.citrix\\.receiver\\.icaviewer\\.mac$'],
+  type: 'frontmost_application_if',
+};
+
 {
   global: {
     check_for_updates_on_startup: true,
@@ -33,80 +38,36 @@
           },
           {
             description: 'Citrix: K380 fn + right',
-            manipulators: [
-              {
-                conditions: [{
-                  bundle_identifiers: ['^com\\.citrix\\.receiver\\.icaviewer\\.mac$'],
-                  type: 'frontmost_application_if',
-                }],
-                from: {
-                  key_code: 'right_arrow',
-                  modifiers: { mandatory: ['left_shift', 'left_option'], optional: ['left_control'] },
-                },
-                to: [{ key_code: 'end' }],
-                type: 'basic',
+            manipulators: [{
+              conditions: [citrix],
+              from: {
+                key_code: 'right_arrow',
+                modifiers: { mandatory: ['left_shift', 'left_option'], optional: ['left_control'] },
               },
-            ],
+              to: [{ key_code: 'end' }],
+              type: 'basic',
+            }],
           },
           {
             description: 'Citrix: K380 fn + left',
-            manipulators: [
-              {
-                conditions: [
-                  {
-                    bundle_identifiers: [
-                      '^com\\.citrix\\.receiver\\.icaviewer\\.mac$',
-                    ],
-                    type: 'frontmost_application_if',
-                  },
-                ],
-                from: {
-                  key_code: 'left_arrow',
-                  modifiers: {
-                    mandatory: [
-                      'left_shift',
-                      'left_option',
-                    ],
-                    optional: [
-                      'left_control',
-                    ],
-                  },
-                },
-                to: [
-                  {
-                    key_code: 'home',
-                  },
-                ],
-                type: 'basic',
+            manipulators: [{
+              conditions: [citrix],
+              from: {
+                key_code: 'left_arrow',
+                modifiers: { mandatory: ['left_shift', 'left_option'], optional: ['left_control'] },
               },
-            ],
+              to: [{ key_code: 'home' }],
+              type: 'basic',
+            }],
           },
           {
             description: 'Citrix: Left Cmd = Left Alt + Left Cmd (coupled with Citrix setting for Alt)',
-            manipulators: [
-              {
-                conditions: [
-                  {
-                    bundle_identifiers: [
-                      '^com\\.citrix\\.receiver\\.icaviewer\\.mac$',
-                    ],
-                    type: 'frontmost_application_if',
-                  },
-                ],
-                from: {
-                  key_code: 'left_command',
-                },
-                to: [
-                  {
-                    key_code: 'left_command',
-                    modifiers: [
-                      'left_option',
-                    ],
-                  },
-                ],
-                type: 'basic',
-              },
-            ],
+            manipulators: [{
+              conditions: [citrix],
+              from: { key_code: 'left_command' },
+              to: [{ key_code: 'left_command', modifiers: ['left_option'] }],
+              type: 'basic',
+            }],
           },
           {
             description: 'caps_lock to left_option (escape if alone)',
