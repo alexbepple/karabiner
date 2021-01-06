@@ -37,27 +37,27 @@
                         ]
                     },
                     {
-                      "description": "option+k => page_up",
-                      "manipulators": [
-                          {
-                              "from": {
-                                  "key_code": "k",
-                                  "modifiers": {
-                                      "mandatory": [
-                                          "left_option"
-                                      ]
-                                  }
-                              },
-                              "to": [
-                                  {
-                                      "key_code": "page_up"
-                                  }
-                              ],
-                              "type": "basic"
-                          }
-                      ]
-                  },
-                  {
+                        "description": "option+k => page_up",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "k",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_option"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "page_up"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Citrix: K380 fn + right",
                         "manipulators": [
                             {
