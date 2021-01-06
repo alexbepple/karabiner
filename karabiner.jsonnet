@@ -71,52 +71,21 @@ local citrix = {
           },
           {
             description: 'caps_lock to left_option (escape if alone)',
-            manipulators: [
-              {
-                from: {
-                  key_code: 'caps_lock',
-                  modifiers: {
-                    optional: [
-                      'any',
-                    ],
-                  },
-                },
-                to: [
-                  {
-                    hold_down_milliseconds: 2,
-                    key_code: 'left_option',
-                    lazy: true,
-                  },
-                ],
-                to_if_alone: [
-                  {
-                    key_code: 'escape',
-                  },
-                ],
-                type: 'basic',
-              },
-            ],
+            manipulators: [{
+              from: { key_code: 'caps_lock', modifiers: { optional: ['any'] } },
+              to: [{ hold_down_milliseconds: 2, key_code: 'left_option', lazy: true }],
+              to_if_alone: [{ key_code: 'escape' }],
+              type: 'basic',
+            }],
           },
           {
             description: 'ö => option, if held down',
-            manipulators: [
-              {
-                from: {
-                  key_code: 'semicolon',
-                },
-                to_if_alone: [
-                  {
-                    key_code: 'semicolon',
-                  },
-                ],
-                to_if_held_down: [
-                  {
-                    key_code: 'left_option',
-                  },
-                ],
-                type: 'basic',
-              },
-            ],
+            manipulators: [{
+              from: { key_code: 'semicolon' },
+              to_if_alone: [{ key_code: 'semicolon' }],
+              to_if_held_down: [{ key_code: 'left_option' }],
+              type: 'basic',
+            }],
           },
         ],
       },
