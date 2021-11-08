@@ -1,3 +1,3 @@
 default:
     jsonnetfmt -i karabiner.jsonnet
-    jsonnet karabiner.jsonnet > karabiner.json
+    jsonnet karabiner.jsonnet | sed 's/\[ \]/[]/' > karabiner.json
