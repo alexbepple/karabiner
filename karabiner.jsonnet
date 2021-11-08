@@ -46,6 +46,9 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
               type: 'basic',
             }],
           },
+
+          // Why are the mappings "caps_lock => left_option" and "ö => option" defined 
+          // very differently, even though the intended effect is structurally the same?
           {
             description: 'caps_lock to left_option (escape if alone)',
             manipulators: [{
