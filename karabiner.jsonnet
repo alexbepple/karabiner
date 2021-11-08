@@ -47,7 +47,7 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
             }],
           },
 
-          // Why are the mappings "caps_lock => left_option" and "ö => option" defined 
+          // Why are the mappings "caps_lock => left_option" and "ö => option" defined
           // very differently, even though the intended effect is structurally the same?
           {
             description: 'caps_lock to left_option (escape if alone)',
@@ -112,100 +112,52 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
       ],
       fn_function_keys: [
         {
-          from: {
-            key_code: 'f1',
-          },
-          to: {
-            consumer_key_code: 'display_brightness_decrement',
-          },
+          from: { key_code: 'f1' },
+          to: [{ consumer_key_code: 'display_brightness_decrement' }],
         },
         {
-          from: {
-            key_code: 'f2',
-          },
-          to: {
-            consumer_key_code: 'display_brightness_increment',
-          },
+          from: { key_code: 'f2' },
+          to: [{ consumer_key_code: 'display_brightness_increment' }],
         },
         {
-          from: {
-            key_code: 'f3',
-          },
-          to: {
-            key_code: 'mission_control',
-          },
+          from: { key_code: 'f3' },
+          to: [{ key_code: 'mission_control' }],
         },
         {
-          from: {
-            key_code: 'f4',
-          },
-          to: {
-            key_code: 'launchpad',
-          },
+          from: { key_code: 'f4' },
+          to: [{ key_code: 'launchpad' }],
         },
         {
-          from: {
-            key_code: 'f5',
-          },
-          to: {
-            key_code: 'illumination_decrement',
-          },
+          from: { key_code: 'f5' },
+          to: [{ key_code: 'illumination_decrement' }],
         },
         {
-          from: {
-            key_code: 'f6',
-          },
-          to: {
-            key_code: 'illumination_increment',
-          },
+          from: { key_code: 'f6' },
+          to: [{ key_code: 'illumination_increment' }],
         },
         {
-          from: {
-            key_code: 'f7',
-          },
-          to: {
-            consumer_key_code: 'rewind',
-          },
+          from: { key_code: 'f7' },
+          to: [{ consumer_key_code: 'rewind' }],
         },
         {
-          from: {
-            key_code: 'f8',
-          },
-          to: {
-            consumer_key_code: 'play_or_pause',
-          },
+          from: { key_code: 'f8' },
+          to: [{ consumer_key_code: 'play_or_pause' }],
         },
         {
-          from: {
-            key_code: 'f9',
-          },
-          to: {
-            consumer_key_code: 'fastforward',
-          },
+          from: { key_code: 'f9' },
+          to: [{ consumer_key_code: 'fastforward' }],
         },
         {
-          from: {
-            key_code: 'f10',
-          },
-          to: {
-            consumer_key_code: 'mute',
-          },
+          from: { key_code: 'f10' },
+          to: [{ consumer_key_code: 'mute' }],
         },
         {
-          from: {
-            key_code: 'f11',
-          },
-          to: {
-            consumer_key_code: 'volume_decrement',
-          },
+          from: { key_code: 'f11' },
+          to: [{ consumer_key_code: 'volume_decrement' }],
         },
         {
-          from: {
-            key_code: 'f12',
-          },
-          to: {
-            consumer_key_code: 'volume_increment',
-          },
+          from: { key_code: 'f12' },
+          to: [{ consumer_key_code: 'volume_increment' }],
         },
       ],
       name: 'Default',
@@ -217,6 +169,7 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
       virtual_hid_keyboard: {
         caps_lock_delay_milliseconds: 0,
         country_code: 0,
+        indicate_sticky_modifier_keys_state: true,
         keyboard_type: '',
         mouse_key_xy_scale: 100,
       },
