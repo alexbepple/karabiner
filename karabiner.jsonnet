@@ -17,7 +17,7 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
   global: {
     check_for_updates_on_startup: true,
     show_in_menu_bar: true,
-    show_profile_name_in_menu_bar: true,
+    show_profile_name_in_menu_bar: false,
   },
   profiles: [
     {
