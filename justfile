@@ -1,8 +1,10 @@
 default:
     jsonnetfmt -i karabiner.jsonnet
-    jsonnet karabiner.jsonnet | sed 's/\[ \]/[]/' > karabiner.json
 
-    # I find it kinda unbelievable that there is no CLI option to apply .editorconfig.
-    # But I haven’t found one yet. The best I can do for now is to run a check
-    # as a reminder to format manually.
+    # This approximates how Karabiner formats JSON.
+    jsonnet karabiner.jsonnet > karabiner.json
+    yarn json -f karabiner.json -4 --in-place # curiously enough, when this is piped it produces a slightly different output :-/
+    truncate -s -1 karabiner.json
+    # And this is just a check.
     yarn editorconfig-cli karabiner.json
+
