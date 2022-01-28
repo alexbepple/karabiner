@@ -59,14 +59,10 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
             }],
           },
           {
-            // I used to have ö here. But in words like 'möchte',
-            // I type c and ö so closely together that I see no reliable way for Karabiner
-            // to distinguish between them being pressed together and one after the other.
-            // So let's try ä. It is also kinda neat for symmetry reasons.
-            description: 'ä => option, if held down',
+            description: 'ö => option, if held down',
             manipulators: [{
-              from: { key_code: 'quote' },
-              to_if_alone: [{ key_code: 'quote' }],
+              from: { key_code: 'semicolon' },
+              to_if_alone: [{ key_code: 'semicolon' }],
               to_if_held_down: [{ key_code: 'left_option' }],
               type: 'basic',
             }],

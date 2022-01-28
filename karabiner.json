@@ -213,15 +213,15 @@
                         ]
                     },
                     {
-                        "description": "ä => option, if held down",
+                        "description": "ö => option, if held down",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "quote"
+                                    "key_code": "semicolon"
                                 },
                                 "to_if_alone": [
                                     {
-                                        "key_code": "quote"
+                                        "key_code": "semicolon"
                                     }
                                 ],
                                 "to_if_held_down": [
