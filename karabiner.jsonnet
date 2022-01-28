@@ -47,23 +47,33 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
             }],
           },
 
-          // Why are the mappings "caps_lock => left_option" and "ö => option" defined
-          // very differently, even though the intended effect is structurally the same?
+          /*
+           * Simplify typing combinations with option key.
+           *
+           * The right-hand combination has proven tricky so far
+           * (using `to_if_held_down`) with German words like 'möchte'/'nächste' (ç) etc.
+           *
+           * The basic template is https://karabiner-elements.pqrs.org/docs/json/typical-complex-modifications-examples/#post-escape-if-left_control-is-pressed-alone
+           */
+          // ongoing refactoring: if possible,
+          // harmonize how left-hand and right-hand helpers are defined
           {
-            description: 'caps_lock to left_option (escape if alone)',
+            description: 'caps_lock => left_option in combination | escape if alone',
             manipulators: [{
               from: { key_code: 'caps_lock', modifiers: { optional: ['any'] } },
+              // why do I need hold_down_milliseconds?
               to: [{ hold_down_milliseconds: 2, key_code: 'left_option', lazy: true }],
               to_if_alone: [{ key_code: 'escape' }],
               type: 'basic',
             }],
           },
           {
-            description: 'ö => option, if held down',
+            description: 'ö => left_option in combination | ö if alone',
             manipulators: [{
               from: { key_code: 'semicolon' },
+              // why do I need hold_down_milliseconds?
+              to: [{ hold_down_milliseconds: 2, key_code: 'left_option', lazy: true }],
               to_if_alone: [{ key_code: 'semicolon' }],
-              to_if_held_down: [{ key_code: 'left_option' }],
               type: 'basic',
             }],
           },

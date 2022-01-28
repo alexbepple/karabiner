@@ -185,7 +185,7 @@
                         ]
                     },
                     {
-                        "description": "caps_lock to left_option (escape if alone)",
+                        "description": "caps_lock => left_option in combination | escape if alone",
                         "manipulators": [
                             {
                                 "from": {
@@ -213,20 +213,22 @@
                         ]
                     },
                     {
-                        "description": "ö => option, if held down",
+                        "description": "ö => left_option in combination | ö if alone",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "semicolon"
                                 },
+                                "to": [
+                                    {
+                                        "hold_down_milliseconds": 2,
+                                        "key_code": "left_option",
+                                        "lazy": true
+                                    }
+                                ],
                                 "to_if_alone": [
                                     {
                                         "key_code": "semicolon"
-                                    }
-                                ],
-                                "to_if_held_down": [
-                                    {
-                                        "key_code": "left_option"
                                     }
                                 ],
                                 "type": "basic"
