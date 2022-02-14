@@ -68,14 +68,27 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
             }],
           },
           {
-            description: 'ö => left_option in combination | ö if alone',
-            manipulators: [{
-              from: { key_code: 'semicolon' },
-              // why do I need hold_down_milliseconds?
-              to: [{ hold_down_milliseconds: 2, key_code: 'left_option', lazy: true }],
-              to_if_alone: [{ key_code: 'semicolon' }],
-              type: 'basic',
-            }],
+            description: 'ö => left_option in combination with 5 & 6',
+            manipulators: [
+              {
+                type: 'basic',
+                parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
+                from: {
+                  simultaneous: [{ key_code: 'semicolon' }, { key_code: '5' }],
+                  simultaneous_options: { key_down_order: 'strict' },
+                },
+                to: [{ modifiers: ['left_option'], key_code: '5' }],
+              },
+              {
+                type: 'basic',
+                parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
+                from: {
+                  simultaneous: [{ key_code: 'semicolon' }, { key_code: '6' }],
+                  simultaneous_options: { key_down_order: 'strict' },
+                },
+                to: [{ modifiers: ['left_option'], key_code: '6' }],
+              },
+            ],
           },
         ],
       },
