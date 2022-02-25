@@ -240,51 +240,20 @@
                                         ]
                                     },
                                     {
-                                        "set_variable": {
-                                            "name": "opt_emu",
-                                            "value": 1
+                                        "sticky_modifier": {
+                                            "left_option": "on"
                                         }
                                     }
                                 ],
                                 "to_delayed_action": {
                                     "to_if_invoked": [
                                         {
-                                            "set_variable": {
-                                                "name": "opt_emu",
-                                                "value": 0
+                                            "sticky_modifier": {
+                                                "left_option": "off"
                                             }
                                         }
                                     ]
                                 },
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "opt_emu",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "6"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "6",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "opt_emu",
-                                            "value": 0
-                                        }
-                                    }
-                                ],
                                 "type": "basic"
                             },
                             {

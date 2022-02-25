@@ -62,9 +62,8 @@ local complexModifications = {
       description: 'ö => left_option in combination with 5 & 6',
 
       // Emulation facilities are for typing both brackets while keeping ö pressed.
-      local turnOptEmulationOn = { set_variable: { name: 'opt_emu', value: 1 } },
-      local turnOptEmulationOff = { set_variable: { name: 'opt_emu', value: 0 } },
-      local optEmulationTurnedOn = { type: 'variable_if', name: 'opt_emu', value: 1 },
+      local turnOptEmulationOn = { sticky_modifier: { left_option: 'on' } },
+      local turnOptEmulationOff = { sticky_modifier: { left_option: 'off' } },
 
       local leftBracket = { modifiers: ['left_option'], key_code: '5' },
       local rightBracket = { modifiers: ['left_option'], key_code: '6' },
@@ -78,13 +77,6 @@ local complexModifications = {
           },
           to: [leftBracket, turnOptEmulationOn],
           to_delayed_action: { to_if_invoked: [turnOptEmulationOff] },
-        }),
-        manipulator({
-          // type ] with ö remaining pressed
-          from: { key_code: '6' },
-          conditions: [optEmulationTurnedOn],
-          to: [rightBracket],
-          to_after_key_up: [turnOptEmulationOff],
         }),
         manipulator({
           // type ] with ö freshly pressed
