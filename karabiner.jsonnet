@@ -13,6 +13,97 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
   }],
 };
 
+local complexModifications = {
+  parameters: {
+    'basic.simultaneous_threshold_milliseconds': 50,
+    'basic.to_delayed_action_delay_milliseconds': 500,
+    'basic.to_if_alone_timeout_milliseconds': 1000,
+    'basic.to_if_held_down_threshold_milliseconds': 50,
+    'mouse_motion_to_scroll.speed': 100,
+  },
+  rules: [
+    from_to('left_option', 'h', 'left_arrow'),
+    // cmd+alt+j is Alfred Snippets for me – unless I have to, I do not want to abandon it
+    from_to('left_option', 'j', 'down_arrow', optional=[]),
+    from_to('left_option', 'k', 'up_arrow'),
+    from_to('left_option', 'l', 'right_arrow'),
+    from_to('left_option', 'd', 'page_down'),
+    from_to('left_option', 'u', 'page_up'),
+    {
+      description: 'Citrix: Left Cmd = Left Alt + Left Cmd (coupled with Citrix setting for Alt)',
+      manipulators: [{
+        conditions: [citrix],
+        from: { key_code: 'left_command' },
+        to: [{ key_code: 'left_command', modifiers: ['left_option'] }],
+        type: 'basic',
+      }],
+    },
+
+    /*
+     * Simplify typing combinations with option key.
+     *
+     * The right-hand combination has proven tricky so far
+     * (using `to_if_held_down`) with German words like 'möchte'/'nächste' (ç) etc.
+     *
+     * The basic template is https://karabiner-elements.pqrs.org/docs/json/typical-complex-modifications-examples/#post-escape-if-left_control-is-pressed-alone
+     */
+    // ongoing refactoring: if possible,
+    // harmonize how left-hand and right-hand helpers are defined
+    {
+      description: 'caps_lock => left_option in combination | escape if alone',
+      manipulators: [{
+        from: { key_code: 'caps_lock', modifiers: { optional: ['any'] } },
+        // why do I need hold_down_milliseconds?
+        to: [{ hold_down_milliseconds: 2, key_code: 'left_option', lazy: true }],
+        to_if_alone: [{ key_code: 'escape' }],
+        type: 'basic',
+      }],
+    },
+    {
+      description: 'ö => left_option in combination with 5 & 6',
+
+      // Emulation facilities are for typing both brackets while keeping ö pressed.
+      local turnOptEmulationOn = { set_variable: { name: 'opt_emu', value: 1 } },
+      local turnOptEmulationOff = { set_variable: { name: 'opt_emu', value: 0 } },
+      local optEmulationTurnedOn = { type: 'variable_if', name: 'opt_emu', value: 1 },
+
+      local leftBracket = { modifiers: ['left_option'], key_code: '5' },
+      local rightBracket = { modifiers: ['left_option'], key_code: '6' },
+
+      manipulators: [
+        {
+          type: 'basic',
+          parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
+          from: {
+            simultaneous: [{ key_code: 'semicolon' }, { key_code: '5' }],
+            simultaneous_options: { key_down_order: 'strict' },
+          },
+          to: [leftBracket, turnOptEmulationOn],
+          to_delayed_action: { to_if_invoked: [turnOptEmulationOff] },
+        },
+        {
+          // type ] with ö remaining pressed
+          type: 'basic',
+          from: { key_code: '6' },
+          conditions: [optEmulationTurnedOn],
+          to: [rightBracket],
+          to_after_key_up: [turnOptEmulationOff],
+        },
+        {
+          // type ] with ö freshly pressed
+          type: 'basic',
+          parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
+          from: {
+            simultaneous: [{ key_code: 'semicolon' }, { key_code: '6' }],
+            simultaneous_options: { key_down_order: 'strict' },
+          },
+          to: [rightBracket],
+        },
+      ],
+    },
+  ],
+};
+
 {
   global: {
     check_for_updates_on_startup: true,
@@ -21,96 +112,7 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
   },
   profiles: [
     {
-      complex_modifications: {
-        parameters: {
-          'basic.simultaneous_threshold_milliseconds': 50,
-          'basic.to_delayed_action_delay_milliseconds': 500,
-          'basic.to_if_alone_timeout_milliseconds': 1000,
-          'basic.to_if_held_down_threshold_milliseconds': 50,
-          'mouse_motion_to_scroll.speed': 100,
-        },
-        rules: [
-          from_to('left_option', 'h', 'left_arrow'),
-          // cmd+alt+j is Alfred Snippets for me – unless I have to, I do not want to abandon it
-          from_to('left_option', 'j', 'down_arrow', optional=[]),
-          from_to('left_option', 'k', 'up_arrow'),
-          from_to('left_option', 'l', 'right_arrow'),
-          from_to('left_option', 'd', 'page_down'),
-          from_to('left_option', 'u', 'page_up'),
-          {
-            description: 'Citrix: Left Cmd = Left Alt + Left Cmd (coupled with Citrix setting for Alt)',
-            manipulators: [{
-              conditions: [citrix],
-              from: { key_code: 'left_command' },
-              to: [{ key_code: 'left_command', modifiers: ['left_option'] }],
-              type: 'basic',
-            }],
-          },
-
-          /*
-           * Simplify typing combinations with option key.
-           *
-           * The right-hand combination has proven tricky so far
-           * (using `to_if_held_down`) with German words like 'möchte'/'nächste' (ç) etc.
-           *
-           * The basic template is https://karabiner-elements.pqrs.org/docs/json/typical-complex-modifications-examples/#post-escape-if-left_control-is-pressed-alone
-           */
-          // ongoing refactoring: if possible,
-          // harmonize how left-hand and right-hand helpers are defined
-          {
-            description: 'caps_lock => left_option in combination | escape if alone',
-            manipulators: [{
-              from: { key_code: 'caps_lock', modifiers: { optional: ['any'] } },
-              // why do I need hold_down_milliseconds?
-              to: [{ hold_down_milliseconds: 2, key_code: 'left_option', lazy: true }],
-              to_if_alone: [{ key_code: 'escape' }],
-              type: 'basic',
-            }],
-          },
-          {
-            description: 'ö => left_option in combination with 5 & 6',
-
-            // Emulation facilities are for typing both brackets while keeping ö pressed.
-            local turnOptEmulationOn = { set_variable: { name: 'opt_emu', value: 1 } },
-            local turnOptEmulationOff = { set_variable: { name: 'opt_emu', value: 0 } },
-            local optEmulationTurnedOn = { type: 'variable_if', name: 'opt_emu', value: 1 },
-
-            local leftBracket = { modifiers: ['left_option'], key_code: '5' },
-            local rightBracket = { modifiers: ['left_option'], key_code: '6' },
-
-            manipulators: [
-              {
-                type: 'basic',
-                parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
-                from: {
-                  simultaneous: [{ key_code: 'semicolon' }, { key_code: '5' }],
-                  simultaneous_options: { key_down_order: 'strict' },
-                },
-                to: [leftBracket, turnOptEmulationOn],
-                to_delayed_action: { to_if_invoked: [turnOptEmulationOff] },
-              },
-              {
-                // type ] with ö remaining pressed
-                type: 'basic',
-                from: { key_code: '6' },
-                conditions: [optEmulationTurnedOn],
-                to: [rightBracket],
-                to_after_key_up: [turnOptEmulationOff],
-              },
-              {
-                // type ] with ö freshly pressed
-                type: 'basic',
-                parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
-                from: {
-                  simultaneous: [{ key_code: 'semicolon' }, { key_code: '6' }],
-                  simultaneous_options: { key_down_order: 'strict' },
-                },
-                to: [rightBracket],
-              },
-            ],
-          },
-        ],
-      },
+      complex_modifications: complexModifications,
       devices: [
         {
           disable_built_in_keyboard_if_exists: false,
