@@ -77,9 +77,22 @@ local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
                   simultaneous: [{ key_code: 'semicolon' }, { key_code: '5' }],
                   simultaneous_options: { key_down_order: 'strict' },
                 },
-                to: [{ modifiers: ['left_option'], key_code: '5' }],
+                to: [
+                  { modifiers: ['left_option'], key_code: '5' },
+                  { set_variable: { name: 'opt_emu', value: 1 } },  // enable to type ] with ö remaining pressed
+                ],
+                to_delayed_action: { to_if_invoked: [{ set_variable: { name: 'opt_emu', value: 0 } }] },
               },
               {
+                // type ] with ö remaining pressed
+                type: 'basic',
+                from: { key_code: '6' },
+                conditions: [{ type: 'variable_if', name: 'opt_emu', value: 1 }],
+                to: [{ modifiers: ['left_option'], key_code: '6' }],
+                to_after_key_up: [{ set_variable: { name: 'opt_emu', value: 0 } }],
+              },
+              {
+                // type ] with ö freshly pressed
                 type: 'basic',
                 parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
                 from: {
