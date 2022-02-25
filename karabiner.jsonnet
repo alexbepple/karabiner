@@ -3,14 +3,15 @@ local citrix = {
   type: 'frontmost_application_if',
 };
 
+local manipulator(x) = x { type: 'basic' };
+
 local from_to(modifierOrModifiers, from, to, optional=['any'],) = {
   local mandatory = if std.isArray(modifierOrModifiers) then modifierOrModifiers else [modifierOrModifiers],
   description: std.join(' ', [std.join('+', mandatory), '+', from, '=>', to]),
-  manipulators: [{
+  manipulators: [manipulator({
     from: { key_code: from, modifiers: { mandatory: mandatory, optional: optional } },
     to: [{ key_code: to }],
-    type: 'basic',
-  }],
+  })],
 };
 
 local complexModifications = {
@@ -31,12 +32,11 @@ local complexModifications = {
     from_to('left_option', 'u', 'page_up'),
     {
       description: 'Citrix: Left Cmd = Left Alt + Left Cmd (coupled with Citrix setting for Alt)',
-      manipulators: [{
+      manipulators: [manipulator({
         conditions: [citrix],
         from: { key_code: 'left_command' },
         to: [{ key_code: 'left_command', modifiers: ['left_option'] }],
-        type: 'basic',
-      }],
+      })],
     },
 
     /*
@@ -51,13 +51,12 @@ local complexModifications = {
     // harmonize how left-hand and right-hand helpers are defined
     {
       description: 'caps_lock => left_option in combination | escape if alone',
-      manipulators: [{
+      manipulators: [manipulator({
         from: { key_code: 'caps_lock', modifiers: { optional: ['any'] } },
         // why do I need hold_down_milliseconds?
         to: [{ hold_down_milliseconds: 2, key_code: 'left_option', lazy: true }],
         to_if_alone: [{ key_code: 'escape' }],
-        type: 'basic',
-      }],
+      })],
     },
     {
       description: 'ö => left_option in combination with 5 & 6',
@@ -71,8 +70,7 @@ local complexModifications = {
       local rightBracket = { modifiers: ['left_option'], key_code: '6' },
 
       manipulators: [
-        {
-          type: 'basic',
+        manipulator({
           parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
           from: {
             simultaneous: [{ key_code: 'semicolon' }, { key_code: '5' }],
@@ -80,25 +78,23 @@ local complexModifications = {
           },
           to: [leftBracket, turnOptEmulationOn],
           to_delayed_action: { to_if_invoked: [turnOptEmulationOff] },
-        },
-        {
+        }),
+        manipulator({
           // type ] with ö remaining pressed
-          type: 'basic',
           from: { key_code: '6' },
           conditions: [optEmulationTurnedOn],
           to: [rightBracket],
           to_after_key_up: [turnOptEmulationOff],
-        },
-        {
+        }),
+        manipulator({
           // type ] with ö freshly pressed
-          type: 'basic',
           parameters: { 'basic.simultaneous_threshold_milliseconds': 500 },
           from: {
             simultaneous: [{ key_code: 'semicolon' }, { key_code: '6' }],
             simultaneous_options: { key_down_order: 'strict' },
           },
           to: [rightBracket],
-        },
+        }),
       ],
     },
   ],
